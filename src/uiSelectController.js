@@ -16,6 +16,7 @@ uis.controller('uiSelectCtrl',
   ctrl.searchEnabled = uiSelectConfig.searchEnabled;
   ctrl.sortable = uiSelectConfig.sortable;
   ctrl.refreshDelay = uiSelectConfig.refreshDelay;
+  ctrl.noIosRefresh = uiSelectConfig.noIosRefresh;
 
   ctrl.removeSelected = false; //If selected item(s) should be removed from dropdown list
   ctrl.closeOnSelect = true; //Initialized inside uiSelect directive link function
@@ -90,15 +91,21 @@ uis.controller('uiSelectCtrl',
         ctrl.activeIndex = 0;
       }
 
+      var triggerFocus = function () {
+        // remove timeout a la https://github.com/angular-ui/ui-select/issues/603#issuecomment-104239604
+        ctrl.search = initSearchValue || ctrl.search;
+        ctrl.searchInput[0].focus();
+        if(!ctrl.tagging.isActivated && ctrl.items.length > 1) {
+          _ensureHighlightVisible();
+        }
+      };
+
       // Give it time to appear before focus
-      // $timeout(function() {
-      // remove timeout a la https://github.com/angular-ui/ui-select/issues/603#issuecomment-104239604
-      ctrl.search = initSearchValue || ctrl.search;
-      ctrl.searchInput[0].focus();
-      if(!ctrl.tagging.isActivated && ctrl.items.length > 1) {
-        _ensureHighlightVisible();
+      if (ctrl.noIosRefresh) {
+        triggerFocus();
+      } else {
+        $timeout(triggerFocus);
       }
-      // });
     }
   };
 
