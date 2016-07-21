@@ -1,7 +1,7 @@
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
- * Version: 0.13.3 - 2016-07-21T22:10:39.423Z
+ * Version: 0.13.3 - 2016-07-21T22:32:52.446Z
  * License: MIT
  */
 
@@ -259,7 +259,7 @@ uis.controller('uiSelectCtrl',
   ctrl.searchEnabled = uiSelectConfig.searchEnabled;
   ctrl.sortable = uiSelectConfig.sortable;
   ctrl.refreshDelay = uiSelectConfig.refreshDelay;
-  ctrl.noIosRefresh = uiSelectConfig.noIosRefresh;
+
 
   ctrl.removeSelected = false; //If selected item(s) should be removed from dropdown list
   ctrl.closeOnSelect = true; //Initialized inside uiSelect directive link function
@@ -344,7 +344,7 @@ uis.controller('uiSelectCtrl',
       };
 
       // Give it time to appear before focus
-      if (ctrl.noIosRefresh) {
+      if (ctrl.noTimeout) {
         triggerFocus();
       } else {
         $timeout(triggerFocus);
@@ -918,6 +918,10 @@ uis.directive('uiSelect',
             var tokens = attrs.taggingTokens !== undefined ? attrs.taggingTokens.split('|') : [',','ENTER'];
             $select.taggingTokens = {isActivated: true, tokens: tokens };
           }
+        });
+
+        attrs.$observe('noTimeout', function() {
+          $select.noTimeout = attrs.noTimeout;
         });
 
         //Automatically gets focus when loaded

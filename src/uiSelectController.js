@@ -16,7 +16,7 @@ uis.controller('uiSelectCtrl',
   ctrl.searchEnabled = uiSelectConfig.searchEnabled;
   ctrl.sortable = uiSelectConfig.sortable;
   ctrl.refreshDelay = uiSelectConfig.refreshDelay;
-  ctrl.noIosRefresh = uiSelectConfig.noIosRefresh;
+
 
   ctrl.removeSelected = false; //If selected item(s) should be removed from dropdown list
   ctrl.closeOnSelect = true; //Initialized inside uiSelect directive link function
@@ -101,7 +101,7 @@ uis.controller('uiSelectCtrl',
       };
 
       // Give it time to appear before focus
-      if (ctrl.noIosRefresh) {
+      if (ctrl.noTimeout) {
         triggerFocus();
       } else {
         $timeout(triggerFocus);

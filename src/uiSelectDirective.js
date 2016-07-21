@@ -120,6 +120,10 @@ uis.directive('uiSelect',
           }
         });
 
+        attrs.$observe('noTimeout', function() {
+          $select.noTimeout = attrs.noTimeout;
+        });
+
         //Automatically gets focus when loaded
         if (angular.isDefined(attrs.autofocus)){
           $timeout(function(){
